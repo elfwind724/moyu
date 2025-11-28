@@ -245,9 +245,8 @@ export function EditorToolbar() {
       // 注意：并行调用功能已禁用，以下代码不会执行
       if (false) {
         // 并行调用多个API（已禁用，代码保留但不执行）
-        const parallelProviders = settings.parallelProviders ?? []
-        const useParallel = parallelProviders.length > 0 && parallelProviders.some((p) => settings.keys[p])
-        const activeProviders = parallelProviders.filter((p) => settings.keys[p])
+    const parallelProviders = settings.parallelProviders ?? []
+    const activeProviders = parallelProviders.filter((p) => settings.keys[p])
         console.info(`[${tool}] 并行调用模式，激活的提供商:`, activeProviders)
         
         if (activeProviders.length === 0) {
@@ -262,7 +261,7 @@ export function EditorToolbar() {
                 model: settings.model.startsWith('gemini') ? settings.model : 'gemini-1.5-pro',
                 apiKey: settings.keys.gemini,
                 historyOptions: {
-                  projectId: currentProjectId,
+                  projectId: currentProjectId!,
                   documentId: currentDocumentId,
                   tool,
                   // 并行调用时，在variant中包含provider名称，确保每个结果都有独立标识
@@ -285,7 +284,7 @@ export function EditorToolbar() {
                 model: (settings.model as 'deepseek-chat' | 'deepseek-reasoner') ?? 'deepseek-chat',
                 temperature: settings.temperature,
                 apiKey: settings.keys.deepseek,
-                projectId: currentProjectId,
+                projectId: currentProjectId!,
                 documentId: currentDocumentId,
                 tool,
                 log: ({ projectId, documentId, tool: logTool, variant, input, output, model }) =>
@@ -305,7 +304,7 @@ export function EditorToolbar() {
                 model: (settings.model as 'glm-4.6' | 'glm-4.5') ?? 'glm-4.6',
                 temperature: settings.temperature,
                 apiKey: settings.keys.zhipu,
-                projectId: currentProjectId,
+                projectId: currentProjectId!,
                 documentId: currentDocumentId,
                 tool,
                 log: ({ projectId, documentId, tool: logTool, variant, input, output, model }) =>
@@ -365,7 +364,7 @@ export function EditorToolbar() {
               ? {
                   provider: 'deepseek',
                   prompt: promptWithIndex,
-                  projectId: currentProjectId,
+                  projectId: currentProjectId!,
                   documentId: currentDocumentId,
                   tool,
                   variant: variantForLog,
@@ -388,7 +387,7 @@ export function EditorToolbar() {
               ? {
                   provider: 'zhipu',
                   prompt: promptWithIndex,
-                  projectId: currentProjectId,
+                  projectId: currentProjectId!,
                   documentId: currentDocumentId,
                   tool,
                   variant: variantForLog,
@@ -415,7 +414,7 @@ export function EditorToolbar() {
                   variant: variantForLog,
                   maxOutputTokens: targetTokens,
                   historyOptions: {
-                    projectId: currentProjectId,
+                    projectId: currentProjectId!,
                     documentId: currentDocumentId,
                     tool,
                     variant: variantForLog,
@@ -446,7 +445,7 @@ export function EditorToolbar() {
       // 即使失败也尝试记录一条错误日志，方便用户看到
       try {
         history.log({
-          projectId: currentProjectId,
+          projectId: currentProjectId!,
           documentId: currentDocumentId,
           tool,
           variant: '错误',
